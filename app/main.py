@@ -3,7 +3,6 @@ from app.models import SummarizeRequest, SummarizeResponse, HealthResponse
 import os
 from typing import Optional
 
-# OpenAI SDK (>=1.0)
 from openai import OpenAI
 
 app = FastAPI(title="Summarizer API", version="0.1.0")
