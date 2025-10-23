@@ -57,48 +57,6 @@ docker compose up --build
 After startup, open:
 👉 [http://localhost:3000/docs](http://localhost:3000/docs)
 
-### 3. Stop the container
-```bash
-docker ps
-docker stop <container_id>
-```
-
----
-
-## 🧠 Example request
-
-### POST `/summarize`
-```bash
-curl -X POST "http://localhost:8000/summarize"      -H "Content-Type: application/json"      -d '{
-           "text": "Sagacify builds AI products and services for businesses ...",
-           "language": "English",
-           "length": "short",
-           "model": "gpt-4o-mini"
-         }'
-```
-
-**Response:**
-```json
-{
-  "summary": "Sagacify develops AI-driven automation and innovation solutions across multiple industries.",
-  "model_used": "gpt-4o-mini"
-}
-```
-
----
-
-## 🧰 Endpoints
-| Method | Endpoint       | Description                |
-|---------|----------------|----------------------------|
-| GET     | `/health`      | Check API health           |
-| POST    | `/summarize`   | Summarize input text       |
-
----
-
-## 🧪 Example output in Swagger
-Go to [http://localhost:8000/docs](http://localhost:8000/docs)  
-You can test the API directly in the browser.
-
 ---
 
 ## 🔒 Environment variables
@@ -117,4 +75,3 @@ You can test the API directly in the browser.
 
 ## 🪶 License
 This project is distributed under the **MIT License**.  
-See `LICENSE` file for details.
