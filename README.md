@@ -75,4 +75,3 @@ After startup, open:
 
 ## 🪶 License
 This project is distributed under the **MIT License**.  
-This project uses OpenAI Whisper, licensed under the MIT License (© 2022 OpenAI).
