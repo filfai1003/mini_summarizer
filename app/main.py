@@ -1,12 +1,29 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from app.models import SummarizeRequest, SummarizeResponse, HealthResponse
 import os
 from typing import Optional
 
 from openai import OpenAI
 
-app = FastAPI(title="Summarizer API", version="0.1.0")
+app = FastAPI(title="Summarizer API", version="build-0.0.1")
 
+# Allow requests from local frontend dev servers
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/", tags=["info"])
 def root():
@@ -42,8 +59,14 @@ def summarize(payload: SummarizeRequest):
     model used.
     """
     client = get_client()
+    # If no OpenAI key is present, return a mock summary so frontend can be tested
     if client is None:
-        raise HTTPException(status_code=500, detail="OPENAI_API_KEY not found. Set the environment variable.")
+        text = payload.text or ""
+        words = text.split()
+        mock = " ".join(words[:30])
+        if len(words) > 30:
+            mock = mock + "..."
+        return SummarizeResponse(summary=f"[MOCK] {mock}", model_used="mock")
 
     # Simple but effective system prompt for generic summarization
     system_prompt = (
@@ -69,4 +92,7 @@ def summarize(payload: SummarizeRequest):
         summary = resp.choices[0].message.content.strip()
         return SummarizeResponse(summary=summary, model_used=payload.model or "gpt-4o-mini")
     except Exception as e:
+        err_str = str(e).lower()
+        if "insufficient_quota" in err_str or "429" in err_str or "quota" in err_str:
+            return SummarizeResponse(summary=f"Quota exceeded, give money to OpenAI!", model_used="mock")
         raise HTTPException(status_code=502, detail=f"LLM error: {e}")

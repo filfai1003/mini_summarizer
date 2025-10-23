@@ -39,18 +39,6 @@ Then edit `.env` and set:
 OPENAI_API_KEY=sk-yourkeyhere
 ```
 
-### 3. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Run the API
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port 8000
-```
-
-The server will be available at 👉 [http://localhost:8000/docs](http://localhost:8000/docs)
-
 ---
 
 ## 🐳 Run with Docker (recommended)
@@ -58,16 +46,16 @@ The server will be available at 👉 [http://localhost:8000/docs](http://localho
 ### 1. Build the image
 Run this inside the project root (where the `Dockerfile` is):
 ```bash
-docker build -t summarizer-api:0.1 .
+docker compose up -d --build
 ```
 
 ### 2. Run the container
 ```bash
-docker run -p 8000:8000 --env-file ./.env summarizer-api:0.1
+docker compose up --build 
 ```
 
 After startup, open:
-👉 [http://localhost:8000/docs](http://localhost:8000/docs)
+👉 [http://localhost:3000/docs](http://localhost:3000/docs)
 
 ### 3. Stop the container
 ```bash

@@ -30,3 +30,66 @@ export const postData = async <T = any>(endpoint: string, data: any): Promise<T>
         throw new Error(`Error posting data: ${unwrapAxiosError(error)}`);
     }
 };
+
+export const streamSummarize = async (
+    text: string,
+    onChunk: (chunk: string) => void,
+    onDone?: () => void,
+    signal?: AbortSignal,
+) => {
+    const res = await fetch(`${API_BASE_URL}/summarize`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+        signal,
+    });
+
+    if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(txt || `HTTP ${res.status}`);
+    }
+
+    const contentType = res.headers.get('content-type') || '';
+    const reader = res.body?.getReader();
+
+    if (!reader) {
+        if (contentType.includes('application/json')) {
+            const json = await res.json();
+            onChunk(json.summary ?? '');
+            onDone?.();
+            return;
+        }
+
+        const full = await res.text();
+        onChunk(full);
+        onDone?.();
+        return;
+    }
+
+    const decoder = new TextDecoder();
+    let done = false;
+    try {
+        while (!done) {
+            const { value, done: d } = await reader.read();
+            done = !!d;
+            if (value) {
+                const chunk = decoder.decode(value, { stream: true });
+                try {
+                    const json = JSON.parse(chunk);
+                    if (typeof json.summary === 'string') {
+                        onChunk(json.summary);
+                    } else {
+                        onChunk(chunk);
+                    }
+                } catch {
+                    onChunk(chunk);
+                }
+            }
+        }
+        onDone?.();
+    } finally {
+        try {
+            reader.releaseLock();
+        } catch {}
+    }
+};
