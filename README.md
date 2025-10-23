@@ -13,14 +13,6 @@ Containerized with **Docker** for easy deployment.
 
 ---
 
-## 🧩 Tech Stack
-- **Python 3.11**
-- **FastAPI + Uvicorn**
-- **OpenAI API**
-- **Docker**
-
----
-
 ## 📦 Installation (Local)
 
 ### 1. Clone the repository
@@ -66,12 +58,7 @@ After startup, open:
 
 ---
 
-## 🧠 Notes
-- Default model: `gpt-4o-mini`  
-- Adjust summarization length with `"length": "short" | "medium" | "long"`  
-- Language can be set to `"English"`, `"French"`, `"Italian"`, etc.
-
----
-
 ## 🪶 License
-This project is distributed under the **MIT License**.  
+This project is distributed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)** license.
+
+This means you are free to use, share, and adapt the code for non-commercial purposes only. For full license terms see the `LICENSE` file or https://creativecommons.org/licenses/by-nc/4.0/
