@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  app:
+    image: mini_summarizer:latest
+    build: .
+    ports:
+      - '8000:8000'
+      - '3000:3000'
+    env_file:
+      - .env
+    restart: unless-stopped
