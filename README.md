@@ -35,13 +35,7 @@ OPENAI_API_KEY=sk-yourkeyhere
 
 ## 🐳 Run with Docker (recommended)
 
-### 1. Build the image
-Run this inside the project root (where the `Dockerfile` is):
-```bash
-docker compose up -d --build
-```
-
-### 2. Run the container
+### Build & Run the container
 ```bash
 docker compose up --build 
 ```
