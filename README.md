@@ -41,7 +41,7 @@ docker compose up --build
 ```
 
 After startup, open:
-👉 [http://localhost:3000/docs](http://localhost:3000/docs)
+👉 [http://localhost:3000](http://localhost:3000)
 
 ---
 
