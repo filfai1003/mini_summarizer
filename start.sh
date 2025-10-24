@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+
+#!/bin/sh
 # Start frontend static server and backend uvicorn server in background
 # Serve built frontend from /app/frontend_dist on port 3000
 
